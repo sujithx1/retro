@@ -188,8 +188,9 @@ const orderPrice=`<%= order.productPrice  %>`
 console.log("ordern price",orderPrice);
 // const orderPrice=100
         
-    
+    `<% if(order.coupon)  {%>`
 let orrdeCoupon=`<%=  order.coupon.Offer_Percentage  %>`
+`<%}%>`
 console.log("order coupon" , orrdeCoupon);
 if(orrdeCoupon)
 

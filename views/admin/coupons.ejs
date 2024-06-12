@@ -22,6 +22,10 @@
             line-height: 1.5 !important;
             border-radius: 0.2rem !important;
         }
+        .non-functional {
+        pointer-events: none; /* Prevents any click events */
+        cursor: default; /* Keeps the cursor as default */
+    }
     </style>
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -298,8 +302,9 @@
                                             </thead>
                                             <% if(coupon) {%>
                                             <tbody>
-                                                <% const currentDate=new Date() %>
-                                                <% coupon.forEach(cpn =>{%>
+                                                <% const currentDate=new Date() %>,
+                                               
+                                                <%  coupon.sort((a, b) => new Date(b.Start_Date) - new Date(a.Start_Date)).forEach(cpn =>{%>
                                             <tr id="coupon-<%= cpn._id %>">
 
                                                 <td>
@@ -334,9 +339,12 @@
                                                     
                                                     <td  >
                                                     <%   if (cpn.isBlocked) {%>
-                                                        <a class="btn btn-success btn-sm" id="toggle-btn-<%= cpn._id %>"  onclick="toggleBlockStatus('<%= cpn._id %>', false)">Enable</a>       
-                                                         <%} else {%>
-                                                            <a class="btn btn-danger btn-sm" id="toggle-btn-<%= cpn._id %>"  onclick="toggleBlockStatus('<%= cpn._id %>', true)">Disable</a>
+                                                        <a class="btn btn-success btn-sm" id="toggle-btn-<%= cpn._id %>"  onclick="toggleBlockStatus('<%= cpn._id %>', false)">Enable</a> 
+                                                        <% } else if (new Date(cpn.Ending_Date) < currentDate) { %>
+                                                            <!-- <span class="badge badge-pill badge-soft-pink">Expired</span>       -->
+                                                            <a class="btn btn-warning btn-sm non-functional">Expired</a>
+                                                            <%} else {%>
+                                                            <a class="btn btn-danger btn-sm" id="toggle-btn-<%= cpn._id %>" onclick="toggleBlockStatus('<%= cpn._id %>', true)">Disable</a>
                                                             <%}%> 
                                                 </td>
                                             </tr>
@@ -418,6 +426,10 @@ function updateCouponStatusInDOM(couponId, newStatus) {
     const statusBadge = document.getElementById(`status-badge-${couponId}`);
     const toggleButton = document.getElementById(`toggle-btn-${couponId}`);
 
+    if (!statusBadge || !toggleButton) {
+        console.error(`Element with ID status-badge-${couponId} or toggle-btn-${couponId} not found.`);
+        return; // Exit the function to prevent further errors
+    }
     if (newStatus) {
         // Update badge to 'Blocked'
         statusBadge.classList.remove('badge-soft-success');

@@ -570,11 +570,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-              statusDiv.className = 'badge badge-pill badge-soft-success';
-                statusDiv.textContent = 'Active';
+              // statusDiv.className = 'badge badge-pill badge-soft-success';
+              //   statusDiv.textContent = 'Active';
 
-                if (applybtn) applybtn.style.display = 'none';
-                if (removebtn) removebtn.style.display = 'inline-block';
+              const statusDiv = document.querySelector(`.badge`);
+            statusDiv.className = 'badge badge-pill badge-soft-success';
+            statusDiv.textContent = 'Blocked';
+
+                // if (applybtn) applybtn.style.display = 'none';
+                // if (removebtn) removebtn.style.display = 'inline-block';
+                
 
                 Swal.fire({
                     icon: "success",

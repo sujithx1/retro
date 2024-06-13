@@ -28,7 +28,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({ 
     clientID:process.env.GOOGLE_CLIENT_ID,
     clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL:"http://www.retroshoponline.shop/auth/google/callback",
+    callbackURL:"https://www.retroshoponline.shop/auth/google/callback",
     // profileFields:['id', 'displayName', 'name', 'gender', 'picture.type(large)','email'],
     passReqToCallback: true
 

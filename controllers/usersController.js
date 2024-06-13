@@ -78,7 +78,8 @@ const loadSuccesGoogle=async(req,res)=>{
 
         {
             req.session.user={
-                _id:req.user._id
+                _id:req.user._id,
+                username:req.user.username
             }
             
             console.log("success",req.user._id);
@@ -444,6 +445,7 @@ let name=""
 if(req.session.user)
     {
         name=req.session.user.username
+        console.log("username : ",name );
 
     }
 

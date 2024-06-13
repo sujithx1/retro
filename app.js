@@ -26,7 +26,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 
-mongoose.connect(process.env.MongoDb)
+mongoose.connect(process.env.MongoDb) 
 .then(async () => {
     console.log('mongodb connected');
     // Insert some data into a collection

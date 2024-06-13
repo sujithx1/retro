@@ -1,9 +1,11 @@
 const isLoggedIn = async (req, res, next) => {
     try {
         if (req.session.user) {
+            console.log("username  : ",req.session.user.username);
             console.log("checking blocked user or not",req.session.user.isBlocked);
             if(!req.session.user.isBlocked)
             {
+                
                 console.log("checking blocked user or not",req.session.user.isBlocked);
                 next(); // User is logged in, proceed to the next middleware/route handler
 

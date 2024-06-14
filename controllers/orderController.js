@@ -49,9 +49,11 @@ const loadOder=async(req,res)=>{
         
 
         const cartData= await Cart.findById({_id:cartId}).populate({path:'products.productId'})
+       
         if(cartData)
         {
          
+            console.log("hao");
         cartData.products.forEach(pro => {
             totalprice+=pro.total_price
             

@@ -3,12 +3,13 @@ const category=require('../models/categoryModel')
 
 
 
+const product= require('../models/productModel')
 //  load category 
 const loadCategory=async(req,res)=>{
     try {
         //  find mongo db all category
 
-
+   
 const searchQuery= req.query.search
 
 let categoryData;

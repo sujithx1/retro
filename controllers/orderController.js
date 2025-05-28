@@ -41,7 +41,7 @@ const loadOder=async(req,res)=>{
         console.log("cartId  : :",cartId);
     
 
-        const user = await User.findById(userId).populate('coupons');
+        const user = await User.findById(userId)
 
         const userAddress=await Address.find({userId:userId})
         // console.log("userAddress" , userAddress);
@@ -97,6 +97,10 @@ const loadOder=async(req,res)=>{
         console.log("error from oderController  loadOder",error);
     }
 }
+
+
+
+
 
 const loadEditAddress= async(req,res)=>{
     try {
@@ -553,6 +557,7 @@ console.log("address.address.name",addressData.address.name);
 }
 
 
+
 const razorypay_payment=async (req,res)=>{
     try {
         
@@ -684,7 +689,7 @@ const verify_Payment = async(req,res)=>{
         
          }
 
-         const OrderData = await Order.findOne({ userId: userId });
+         let OrderData = await Order.findOne({ userId: userId });
         
    
 
@@ -713,7 +718,16 @@ const verify_Payment = async(req,res)=>{
             console.log('Payment verification successful');
 
 
-
+        
+         
+if (!OrderData) {
+    OrderData = new Order({
+        userId: userId,
+        products: [],
+        address: [],
+        totalPrice: 0
+    });
+}
 
             if (!Array.isArray(OrderData.order)) {
                 OrderData.order = [];

@@ -18,7 +18,7 @@ const sendresetPasswordMail=(username,email,token)=>{
             from:process.env.Email,
             to:email,
             subject:'reset password',
-            html:'<p> Hai '+username+'Please Click the  link <a href="http://localhost:3000/reset-password?token='+token+'">and reset your password</a></p>'
+            html:'<p> Hai '+username+'Please Click the  link <a href='`${process.env.CLIENT_URL}/reset-password?token=${token}`>'and reset your password</a></p>'
         
         
         }

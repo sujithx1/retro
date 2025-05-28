@@ -37,10 +37,6 @@ const userSchema=mongoose.Schema({
     },
     googleId: String,
    
-    coupons:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'coupon'
-    }]
 
 })
 module.exports=mongoose.model('User',userSchema)

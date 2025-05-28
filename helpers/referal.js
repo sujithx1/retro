@@ -18,7 +18,7 @@ const sendresetPasswordMail=(email)=>{
             from:process.env.Email,
             to:email,
             subject:'Retro Referal',
-            html:'<p> Hai '+email+'Please Click the  link <a href="http://localhost:3000/signup">and Register </a></p>'
+            html:'<p> Hai '+email+'Please Click the  link <a href='`${process.env.CLIENT_URL}/signup`>'and Register </a></p>'
         
         
         }

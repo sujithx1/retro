@@ -11,7 +11,7 @@ const cors=require('cors')
 // const cookie_Parser=require('cookie-parser')
 
 
-const port=process.env.PORT||3000
+const port=process.env.PORT||3001
 const mongoose=require('mongoose')
 
 // app.use(cookie_Parser())
@@ -19,7 +19,7 @@ app.use(session({
     secret:process.env.Secret,
     resave:false,
     saveUninitialized:true
-}))
+})) 
 
 
 app.use(passport.initialize())
@@ -33,9 +33,6 @@ mongoose.connect(process.env.MongoDb)
     await mongoose.connection.db.collection('test').insertOne(  { name: 'test' });
 })
 .catch((err) => console.log(err)); 
-
-   
-
 
 
 // // Serialize and deserialize user

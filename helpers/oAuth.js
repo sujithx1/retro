@@ -28,7 +28,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({ 
     clientID:process.env.GOOGLE_CLIENT_ID,
     clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL:"http://:3000/auth/google/callback",
+    callbackURL:`${process.env.CLIENT_URL}/auth/google/callback`,
     // profileFields:['id', 'displayName', 'name', 'gender', 'picture.type(large)','email'],
     passReqToCallback: true
 

@@ -797,7 +797,7 @@
                                                     <% order?.products?.forEach(product =>{%>
                                             
                                                 
-                                                        <% if(product.payment_method.method === 'Wallet' ){%>
+                                                        <% if(product.payment_method.method === 'Wallet' || product.product_orderStatus ==="cancelled" ){%>
                                                     <tbody>
                                                       <tr>
                                                         <td><%= product.date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %> </td>

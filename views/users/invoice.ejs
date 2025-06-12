@@ -187,9 +187,9 @@
 const orderPrice=`<%= order.productPrice  %>`
 console.log("ordern price",orderPrice);
 // const orderPrice=100
-        
+        let orrdeCoupon;
     `<% if(order.coupon)  {%>`
-let orrdeCoupon=`<%=  order.coupon.Offer_Percentage  %>`
+ orrdeCoupon=`<%=  order.coupon.Offer_Percentage  %>`
 `<%}%>`
 console.log("order coupon" , orrdeCoupon);
 if(orrdeCoupon)
@@ -207,10 +207,12 @@ if(orrdeCoupon)
     console.log("discOuntCoupon",discountCoupon);
     
 
+
 }
 const shippingPrice=parseFloat(document.getElementById('shippingPrice').textContent)
         console.log("ship",shippingPrice);
         document.getElementById('totalPrice').innerText=parseFloat(orderPrice)+parseFloat(shippingPrice)
+console.log("total price  ccc ",orderPrice+shippingPrice);
 
 
                   

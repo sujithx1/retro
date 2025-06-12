@@ -68,6 +68,11 @@ const orderSchema=new mongoose.Schema({
     
       
     },
+    cancelled_Date:{
+        type:Date,
+        default:""
+
+    },
     coupon:{
      type:mongoose.Schema.Types.ObjectId,
      ref:"coupon" ,

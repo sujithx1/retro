@@ -374,13 +374,16 @@
                                     </div> -->
                                     <div class="col-sm-6 mb-3">
                                         <label class="form-label">Category</label>
-                                        <select name="product_category" class="form-select" id="product_category">
-                                            <% for(let i=0 ; i < msg.length ; i++ ) { %>
-                                                <% if(!msg[i].delete) { %>
-                                            <option value="<%= msg[i]._id %>"><%= msg[i].name %></option>
-                                                <% } %>
-                                            <% } %>
-                                          </select>
+                                     <select name="product_category" class="form-select" id="product_category" required>
+  <option value="" disabled selected>-- Select a category --</option>
+  
+  <% for(let i = 0; i < msg.length; i++) { %>
+    <% if (!msg[i].delete) { %>
+      <option value="<%= msg[i]._id %>"><%= msg[i].name %></option>
+    <% } %>
+  <% } %>
+</select>
+
                                           
                                     </div>
                                     <!-- <div class="col-lg-4">
@@ -735,9 +738,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("error_Paprice").innerHTML="Please fill the Regular price"
                 return false
             }
+            else if( product_Aprice<=0)
+            {
+                document.getElementById("error_Paprice").innerHTML="Please enter actual price"
+                return false
+            }
             else if( product_Pprice === "")
             {
                 document.getElementById("error_Ppprice").innerHTML="Please fill the Promotion price"
+                return false
+            }else if(product_Pprice <=0){
+                 document.getElementById("error_Ppprice").innerHTML="Please enter actual price"
                 return false
             }
             else

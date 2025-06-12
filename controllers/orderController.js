@@ -783,8 +783,15 @@ if (!OrderData) {
                 if(updatedProduct)
                     {
                         console.log("updateded");
+                        console.log("Cart model is", Cart); // should not be undefined
+
+
+                              await Cart.findByIdAndDelete(cartId);
+
+
                 
                         res.status(200).json({success:true})
+
                     }
             }
             
@@ -794,6 +801,10 @@ if (!OrderData) {
         {
             console.log("not verified");
         }
+
+
+
+
 
 
 

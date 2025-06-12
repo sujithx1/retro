@@ -589,88 +589,22 @@
                                                         <table class="table " >
                                                             <thead>
                                                                 <tr>
-                                                                    <th>date</th>
+                                                                    <th>Date</th>
                                                                     <th>Image</th>
                                                                     <th>Status</th>
                                                                     <th>Total</th>
-                                                                    <th>method</th>
+                                                                    <th>Method</th>
                                                                     <th>Actions</th>
-                                                                    <th>detail</th>
+                                                                    <th>Detail</th>
                                                                 </tr>
                                                             </thead>
                                                             
-                                                            <tbody>
-                                                                <% order.products.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(product =>{%>
-                                                                    <%if (product.product_orderStatus!=="payment failed"){%>
-                                                                <tr>
-                                                                    <td><%= product.date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %></td>
-                                                                    <td class="image product-thumbnail"><img src="/uploads/<%= product.productId.image[0] %>" alt=""></td>
-                                                                    <td>
-                                                                        <%if(product.product_orderStatus==="cancelled") {%>
-                                                                            <span id="status-<%= product._id %>" class="text-danger"> <%= product.product_orderStatus %></span>
-                                                                        <%} else if(product.product_orderStatus==="pending" || product.product_orderStatus==="return" || product.product_orderStatus==="Return pending" ){%> 
-                                                                            <span id="status-<%= product._id %>" class="text-warning"> <%= product.product_orderStatus %></span>
-                                                                        <%} else if (product.product_orderStatus==="completed"){%>
-                                                                            <span id="status-<%= product._id %>" class="text-success"> <%= product.product_orderStatus %></span>
-                                                                        <%}%>
-                                                                    </td>
-                                                                    <td><%= product.productPrice %></td>
-                                                                    <td><%= product.payment_method.method %></td>
-                                                                    <td>
-                                                                      
-                                                                        <% if(product.product_orderStatus!== "cancelled" && product.product_orderStatus=== "pending" && product.product_orderStatus !== "return") {%>
-                                                                            <form id="cancelOrderForm" >
-                                                                                <input type="hidden" name="orderId" value="<%= order._id %>">
-                                                                                <input type="hidden" name="productId" value="<%= product._id %>">
-                                                                                <button type="button"   class="btn-sm d-block btn-danger" id="cancelButton" onclick="confirmCancelOrder(this,`<%= order._id %>`,`<%= product._id %>`)">Cancel</button>
-                                                                            </form>
-                                                                            
-                                                                          
-                                                                             
-                                                                            
-                                                                        <%} else if (product.product_orderStatus=== "completed"  ){%>
-                                                                            
-                                                                            <!-- <form id="returnOrderForm" onsubmit="return confirmReturn()">
-                                                                                
-                                                                                <input type="hidden" name="orderId" value="<%= order._id %>">
-                                                                                <input type="hidden" name="productId" value="<%= product._id %>">
-                                                                                <input type="hidden" id="returnReason" name="returnReason">
-                                                                                <button type="submit">Return Order</button>
-                                                                            </form> -->
-                                                                            <form id="returnOrderForm">
-                                                                                <!-- Other form fields -->
-                                                                                <input type="hidden" id="returnReason" name="returnReason">
-                                                                                <input type="hidden" id="orderId" name="orderId" value="<%= order._id %>""> <!-- Example order ID -->
-                                                                                <input type="hidden" id="productId" name="productId" value="<%= product._id %>"> <!-- Example product ID -->
-                                                                                <button type="submit"  id="returnButton-<%= order._id %>" class="btn btn-sm"  >Return Order</button>
-                                                                            </form>
-                                                                            
-                                                                            
-                                                                            <!-- <form id="returnOrderForm" action="/profile/orders/return" method="POST" onsubmit=" return confirmReturn()">
-                                                                                <input type="hidden" name="orderId" value="<%= order._id %>">
-                                                                                <input type="hidden" name="productId" value="<%= product._id %>">
-                                                                                <input type="hidden" id="returnReason" name="returnReason">
-
-                                                                                <button type="submit" id="returnButton-<%= order._id %>" class="btn-small d-block">Return</button>
-                                                                            </form> -->
-                                                                            
-                                                                        <%} else if (product.product_orderStatus=== "cancelled"){%>
-                                                                            <button class="btn btn-danger btn-sm" disabled>cancelled </button>
-                                                                            <%} else if (product.product_orderStatus=== "return" || product.product_orderStatus==="Return pending" ){%>
-                                                                                <button class="btn btn-warning btn-sm" disabled>Returned </button>
-                                                                            <%}%>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div>
-                                                                            <a href="/profile/orders/detail?id=<%=product._id %>" class="btn btn-sm btn-success">view </a>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <%}%>
-                                                                <%})%>
+                                                            <tbody id="orders-table-body">
                                                                
                                                             </tbody>
                                                         </table>
+                                                        <div id="orders-pagination" class="mt-3"></div>
+
 
 
                                                         
@@ -698,64 +632,21 @@
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>date</th>
+                                                                    <th>Date</th>
                                                                     <th>Image</th>
                                                                     <th>Status</th>
                                                                     <th>Total</th>
-                                                                    <th>method</th>
+                                                                    <th>Method</th>
                                                                     <th>Actions</th>
-                                                                    <th>detail</th>
+                                                                    <th>Detail</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                <% order.products.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(product =>{%>
-                                                                    <%if (product.product_orderStatus==="payment failed"){%>
-                                                                <tr>
-                                                                    <td><%= product.date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %></td>
-                                                                    <td class="image product-thumbnail"><img src="/uploads/<%= product.productId.image[0] %>" alt=""></td>
-                                                                    <td>
-                                                                        <%if(product.product_orderStatus==="cancelled") {%>
-                                                                            <span id="status-<%= product._id %>" class="text-danger"> <%= product.product_orderStatus %></span>
-                                                                        <%} else if(product.product_orderStatus==="pending" || product.product_orderStatus==="return" || product.product_orderStatus==="Return pending" ){%> 
-                                                                            <span id="status-<%= product._id %>" class="text-warning"> <%= product.product_orderStatus %></span>
-                                                                        <%} else if (product.product_orderStatus==="completed"){%>
-                                                                            <span id="status-<%= product._id %>" class="text-success"> <%= product.product_orderStatus %></span>
-                                                                        <%}%>
-                                                                    </td>
-                                                                    <td><%= product.productPrice %></td>
-                                                                    <td><%= product.payment_method.method %></td>
-                                                                    <td>
-                                                                      
-                                                                        
-                                                                            <!-- <form id="razorpayPayment" action="/product/order?cartId=" method="">
-                                                                                <input type="hidden" name="orderId" value="<%= order._id %>">
-                                                                                <input type="hidden" name="productId" value="<%= product._id %>">
-                                                                                <input type="hidden" name="qty" value="<%= product.quantity %>">
-                                                                                <button type="submit" id="retryPayment-<%= order._id %>" class="btn-sm d-block">Retry payment</button>
-                                                                            </form> 
-
-                                                                             -->
-                                                                             <a href="javascript:void(0);" onclick="retryPayment('<%= product.cartId %>','<%= product._id %>')" class="btn-sm d-block btn-primary">
-                                                                                retryPayment
-                                                                            </a>
-                                                                            
-                                                                          
-                                                                             
-                                                                       
-                                                                            
-                                                                           
-                                                                    </td>
-                                                                    <td>
-                                                                        <div>
-                                                                            <a href="/profile/orders/detail?id=<%=product._id %>" class="btn btn-sm btn-success">view </a>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <%}%>
-                                                                <%})%>
-                                                                
+<tbody id="payment-failure-body">
+                                                               
                                                             </tbody>
                                                         </table>
+                                                        <div id="payment-failure-pagination" class="mt-3"></div>
+
                                                     </div>
                                               
                                         </div>
@@ -784,9 +675,9 @@
                                                 <table>
                                                     <thead>
                                                       <tr>
-                                                        <th>date</th>
+                                                        <th>Date</th>
                                                         <th>Owner</th>
-                                                        <th>product</th>
+                                                        <th>Product</th>
                                                         <th>Payment</th>
                                                         <th>Status</th>
                                                         <th>History</th>
@@ -794,13 +685,21 @@
                                                         
                                                       </tr>
                                                     </thead>
-                                                    <% order?.products?.forEach(product =>{%>
+                                                    <%
+  // Sort by cancelled_Date or fallback to date
+  const sortedProducts = order?.products?.slice().sort((a, b) => {
+    const dateA = new Date(a.cancelled_Date || a.date);
+    const dateB = new Date(b.cancelled_Date || b.date);
+    return dateB - dateA; // Descending: latest first
+  });
+%>
+                                                    <% sortedProducts.forEach(product =>{%>
                                             
                                                 
                                                         <% if(product.payment_method.method === 'Wallet' || product.product_orderStatus ==="cancelled" ){%>
-                                                    <tbody>
-                                                      <tr>
-                                                        <td><%= product.date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %> </td>
+                                                    <tbody id="wallet-table-body">
+                                                      <!-- <tr>
+                                                        <td><%= product.cancelled_Date? product.cancelled_Date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }):product.date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %> </td>
                                                         <td><%= user.username  %></td>
                                                         <td><%= product.productId.name %></td>
                                                         <td><%= product.productPrice %></td>
@@ -810,7 +709,7 @@
                                                         <%}else{%>
                                                             <td class="text-success">+<%= product.productPrice%> </td>
                                                             <%}%>
-                                                      </tr>
+                                                      </tr> -->
                                                       <!-- <tr>
                                                         <td>Savings Wallet</td>
                                                         <td>Jane Smith</td>
@@ -821,7 +720,9 @@
                                                     </tbody>
                                                     <%}%>
                                                     <% })%>
-                                                  </table>
+                                                    
+                                                </table>
+                                                <div id="wallet-pagination" class="mt-3"> 1,12</div>
                                                 
 
                                                 <!-- <p>To track your order please enter your OrderID in the box below and press "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p> -->
@@ -973,23 +874,12 @@
                                                                     <th>History</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                <% transaction.forEach(transaction => { %>
-                                                                    <tr>
-                                                                        <td><%= new Date(transaction.timestamp).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %></td>
-                                                                        <td><%= user.username %></td>
-                                                                        <td><%= transaction.price %></td>
-                                                                        <td><%= transaction.type %></td>
-                                                                        <!-- <td class="text-primary"><%= transaction.productPrice %></td> -->
-                                                                        <% if (transaction.product_orderStatus === "Success") { %>
-                                                                            <td class="text-danger">-<%= transaction.price %></td>
-                                                                        <% } else { %>
-                                                                            <td class="text-success">+<%= transaction.price %></td>
-                                                                        <% } %>
-                                                                    </tr>
-                                                                <% }) %>
+                                                          <tbody id="transaction-table-body">
+
                                                             </tbody>
                                                         </table>
+                                                        <div id="transaction-pagination" class="mt-3"></div>
+
                                                     </div>
                                                 <% } else { %>
                                                     <p>No Transactions</p>
@@ -1126,9 +1016,301 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-
-
     <script>
+  const failedOrders = JSON.parse('<%- JSON.stringify(order.products.filter(p => p.product_orderStatus === "payment failed"))%>');
+</script>
+<script>
+  const failedPerPage = 3;
+  let currentFailedPage = 1;
+
+  function renderFailedOrders(page = 1) {
+    const sorted = failedOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const start = (page - 1) * failedPerPage;
+    const end = start + failedPerPage;
+    const tableBody = document.getElementById('payment-failure-body');
+    tableBody.innerHTML = "";
+
+    sorted.slice(start, end).forEach(product => {
+      const date = new Date(product.date).toLocaleDateString('en-US', {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+      });
+
+      const html = `
+        <tr>
+          <td>${date}</td>
+          <td class="image product-thumbnail"><img src="/uploads/${product.productId?.image?.[0] || 'default.jpg'}" alt="" /></td>
+          <td><span class="text-danger">${product.product_orderStatus}</span></td>
+          <td>${product.productPrice}</td>
+          <td>${product.payment_method?.method || 'N/A'}</td>
+          <td>
+            <a href="javascript:void(0);" onclick="retryPayment('${product.cartId}','${product._id}')" class="btn-sm d-block btn-primary">Retry Payment</a>
+          </td>
+          <td>
+            <a href="/profile/orders/detail?id=${product._id}" class="btn btn-sm btn-success">View</a>
+          </td>
+        </tr>
+      `;
+      tableBody.insertAdjacentHTML("beforeend", html);
+    });
+
+    renderFailedPagination();
+  }
+
+  function renderFailedPagination() {
+    const totalPages = Math.ceil(failedOrders.length / failedPerPage);
+    const pagination = document.getElementById('payment-failure-pagination');
+    pagination.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      btn.className = "btn btn-sm btn-outline-primary mx-1";
+      if (i === currentFailedPage) btn.disabled = true;
+      btn.onclick = () => {
+        currentFailedPage = i;
+        renderFailedOrders(currentFailedPage);
+      };
+      pagination.appendChild(btn);
+    }
+  }
+
+  // Render the first page on load
+  renderFailedOrders(currentFailedPage);
+</script>
+
+
+
+
+<script>
+  const allTransactions = JSON.parse('<%- JSON.stringify(transaction) %>');
+  const transactionUsername = '<%= user.username %>';
+</script>
+
+<script>
+  const transactionsPerPage = 5;
+  let currentTransactionPage = 1;
+
+  function renderTransactions(page = 1) {
+    const sorted = allTransactions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    const start = (page - 1) * transactionsPerPage;
+    const end = start + transactionsPerPage;
+    const tableBody = document.getElementById('transaction-table-body');
+    tableBody.innerHTML = "";
+
+    sorted.slice(start, end).forEach(txn => {
+      const date = new Date(txn.timestamp).toLocaleDateString('en-US', {
+        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+      });
+
+      const signClass = txn.product_orderStatus === "Success" ? "text-danger" : "text-success";
+      const sign = txn.product_orderStatus === "Success" ? "-" : "+";
+
+      const row = `
+        <tr>
+          <td>${date}</td>
+          <td>${transactionUsername}</td>
+          <td>${txn.price}</td>
+          <td>${txn.type}</td>
+          <td class="${signClass}">${sign}${txn.price}</td>
+        </tr>
+      `;
+      tableBody.insertAdjacentHTML("beforeend", row);
+    });
+
+    renderTransactionPagination();
+  }
+
+  function renderTransactionPagination() {
+    const totalPages = Math.ceil(allTransactions.length / transactionsPerPage);
+    const paginationDiv = document.getElementById('transaction-pagination');
+    paginationDiv.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      btn.className = "btn btn-sm btn-outline-primary mx-1";
+      if (i === currentTransactionPage) btn.disabled = true;
+      btn.onclick = () => {
+        currentTransactionPage = i;
+        renderTransactions(currentTransactionPage);
+      };
+      paginationDiv.appendChild(btn);
+    }
+  }
+
+  renderTransactions(currentTransactionPage);
+</script>
+
+
+
+
+
+<script>
+  const allOrderProducts = JSON.parse('<%- JSON.stringify(order.products.filter(p => p.product_orderStatus !== "payment failed")) %>');
+  console.log(allOrderProducts.length);
+  
+</script>
+<script>
+  const ordersPerPage = 4;
+  let currentOrderPage = 1;
+
+  function renderOrdersTable(page = 1) {
+    const sortedOrders = allOrderProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const start = (page - 1) * ordersPerPage;
+    const end = start + ordersPerPage;
+    const slicedOrders = sortedOrders.slice(start, end);
+
+    const tableBody = document.getElementById('orders-table-body');
+    tableBody.innerHTML = '';
+
+    slicedOrders.forEach(product => {
+      const date = new Date(product.date).toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+
+      const statusClass = product.product_orderStatus === "cancelled"
+        ? "text-danger"
+        : (["pending", "return", "Return pending"].includes(product.product_orderStatus) ? "text-warning" : "text-success");
+
+      const statusText = product.product_orderStatus;
+
+      const buttonHTML = (() => {
+        if (statusText === "cancelled") {
+          return `<button class="btn btn-danger btn-sm" disabled>Cancelled</button>`;
+        } else if (["return", "Return pending"].includes(statusText)) {
+          return `<button class="btn btn-warning btn-sm" disabled>Returned</button>`;
+        } else if (statusText === "pending") {
+          return `<form>
+            <input type="hidden" name="orderId" value="${product.orderId || ''}">
+            <input type="hidden" name="productId" value="${product._id}">
+            <button type="button" class="btn-sm d-block btn-danger" onclick="confirmCancelOrder(this,'${product.orderId}','${product._id}')">Cancel</button>
+          </form>`;
+        } else if (statusText === "completed") {
+          return `<form>
+            <input type="hidden" name="orderId" value="${product.orderId || ''}">
+            <input type="hidden" name="productId" value="${product._id}">
+            <button type="submit" class="btn btn-sm">Return Order</button>
+          </form>`;
+        } else {
+          return '';
+        }
+      })();
+
+      const row = `
+        <tr>
+          <td>${date}</td>
+          <td class="image product-thumbnail"><img src="/uploads/${product.productId.image[0]}" alt="" /></td>
+          <td><span class="${statusClass}">${statusText}</span></td>
+          <td>${product.productPrice}</td>
+          <td>${product.payment_method?.method}</td>
+          <td>${buttonHTML}</td>
+          <td><a href="/profile/orders/detail?id=${product._id}" class="btn btn-sm btn-success">View</a></td>
+        </tr>
+      `;
+
+      tableBody.insertAdjacentHTML("beforeend", row);
+    });
+
+    renderOrderPagination();
+  }
+
+  function renderOrderPagination() {
+    const totalPages = Math.ceil(allOrderProducts.length / ordersPerPage);
+    const paginationDiv = document.getElementById('orders-pagination');
+    paginationDiv.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = i;
+      btn.className = "btn btn-sm btn-outline-primary mx-1";
+      if (i === currentOrderPage) btn.disabled = true;
+      btn.onclick = () => {
+        currentOrderPage = i;
+        renderOrdersTable(currentOrderPage);
+      };
+      paginationDiv.appendChild(btn);
+    }
+  }
+
+  renderOrdersTable(currentOrderPage);
+</script>
+
+
+
+<%
+  let walletProducts = [];
+  if (order && order.products) {
+    walletProducts = order.products.filter(function (p) {
+      return (p.payment_method && p.payment_method.method === 'Wallet') || p.product_orderStatus === 'cancelled';
+    });
+  }
+%>
+<script>
+  const walletProducts = JSON.parse('<%- JSON.stringify(walletProducts)%>');
+  console.log("wallet productssss",walletProducts);
+</script>
+
+
+
+<script>
+    
+  const products = walletProducts.sort((a, b) => new Date(b.cancelled_Date || b.date) - new Date(a.cancelled_Date || a.date));
+console.log(products.length);
+
+  const perPage = 3;
+  let currentPage = 1;
+
+  function renderTable(page = 1) {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    const tableBody = document.getElementById('wallet-table-body');
+    tableBody.innerHTML = "";
+
+    const sliced = products.slice(start, end);
+    sliced.forEach(product => {
+      const date = new Date(product.cancelled_Date || product.date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+      const sign = product.payment_status === "Success" ? "-" : "+";
+      const signClass = product.payment_status === "Success" ? "text-danger" : "text-success";
+      const html = `
+        <tr>
+          <td>${date}</td>
+          <td>${product.user?.username || "User"}</td>
+          <td>${product.productId?.name || "N/A"}</td>
+          <td>${product.productPrice}</td>
+          <td>${product.payment_status}</td>
+          <td class="${signClass}">${sign}${product.productPrice}</td>
+        </tr>
+      `;
+      tableBody.innerHTML += html;
+    });
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const totalPages = Math.ceil(products.length / perPage);
+    const paginationDiv = document.getElementById('wallet-pagination');
+    paginationDiv.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      paginationDiv.innerHTML += `<button onclick="changePage(${i})" ${i === currentPage ? 'disabled' : ''}>${i}</button> `;
+    }
+  }
+
+  function changePage(page) {
+    currentPage = page;
+    renderTable(currentPage);
+  }
+
+  renderTable(currentPage);
+</script>
+
+
+<script>
+        // const walletProducts = <%- JSON.stringify(order.products.filter(p => p.payment_method.method === 'Wallet' || p.product_orderStatus === 'cancelled')) %>
 
 
 async function confirmCancelOrder(button,orderId,productId)

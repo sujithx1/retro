@@ -317,9 +317,22 @@ label.cabinet input.file{
                                     <div class="col-sm-6 mb-3">
                                         <label class="form-label">Category</label>
                                         <select name="product_category" class="form-select" id="product_category">
+                                             <!-- <option value="kajsd"><%= data.category %></option> -->
+                                           <% 
+  const categoryObj = cat.find((item) => item._id.toString() == data.category.toString());
+  console.log("product category",data.category)
+  console.log(" categories",cat)
+  const categoryName = categoryObj ? categoryObj.name : "Product Category";
+%>
+
+                                                <option value="" disabled selected><%= categoryName %></option>
+
                                             <% for ( let i=0 ; i < cat.length ; i++ ) { %>
-                                            <option value="<%= cat[i]._id %>"><%= cat[i].name %></option>
-                                            <% } %>
+
+                                                
+<% if (cat[i]._id.toString() != data.category.toString()) { %>
+      <option value="<%= cat[i]._id %>"><%= cat[i].name %></option>
+    <% } %>                                            <% } %>
                                           </select>
                                           
                                     </div>

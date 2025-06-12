@@ -1411,6 +1411,7 @@ const productIndex = orderData.products.findIndex(pro => pro._id.toString() === 
 if (productIndex!== -1) {
     // Product found, update its status
     orderData.products[productIndex].product_orderStatus = 'cancelled';
+    orderData.products[productIndex].cancelled_Date=Date.now()
 
     
 } else {

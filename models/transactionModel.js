@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-
-    userId:{
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'order',
     required: true,
-
-    },
-//   orderId: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'order',
-//     required: true,
-//   },
+  },
+  //   orderId: {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: 'order',
+  //     required: true,
+  //   },
   productIdInOrder: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -40,5 +38,4 @@ const transactionSchema = new mongoose.Schema({
   },
 });
 
-module.exports   = mongoose.model('transaction', transactionSchema);
-
+module.exports = mongoose.model('transaction', transactionSchema);

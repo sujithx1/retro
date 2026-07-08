@@ -23,7 +23,12 @@ const isLoggedIn = async (req, res, next) => {
 const isLoggedOut = async (req, res, next) => {
   try {
     if (req.session.user) {
-      res.redirect('/home'); // Redirect to dashboard if user is already logged in
+      const platform = req.header('platform');
+      if (platform == 'expo') {
+        next();
+      } else {
+        res.redirect('/home'); // Redirect to dashboard if user is already logged in
+      }
     } else {
       next(); // User is logged out, proceed to the next middleware/route handler
     }

@@ -6,7 +6,7 @@ const bodyparser = require('body-parser');
 const path = require('path');
 require('dotenv').config();
 const cors = require('cors');
-
+const morgan = require('morgan');
 // const cookie_Parser=require('cookie-parser')
 
 const port = process.env.PORT || 3001;
@@ -20,7 +20,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use(morgan("dev"))
 app.use(passport.initialize());
 app.use(passport.session());
 

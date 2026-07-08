@@ -269,8 +269,54 @@ const verifyLogin = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
+    console.log('header',req.headers)
+
+    const platform = req.headers.platform;
 
     const userData = await User.findOne({ email: email });
+
+    if (platform === "expo") {
+
+      console.log('expo')
+      if (!userData) {
+        return res.status(400).json({ message: "user not found" })
+      }
+
+      if (userData.isBlocked) {
+        return res.status(400).json({ message: "user is blocked" })
+      }
+
+      const passwordMatch = await bcrypt.compare(password, userData.password);
+      if (!passwordMatch) {
+        return res.status(400).json({ message: "password is not matching" })
+      }
+      // const token = jwt.sign(
+      //   {
+      //     _id: userData._id,
+      //     email: userData.email,
+      //     username: userData.username,
+      //     isBlocked: userData.isBlocked,
+      //   },
+      //   process.env.JWT_SECRET || "",
+      //   { expiresIn: "10d" }
+      // );
+
+      req.session.user = {
+        _id: userData._id,
+        email: email,
+        isBlocked: false,
+        username: userData.username,
+      };
+      console.log(userData);
+
+      return res.status(200).json({ message: "user found", user: userData ,token:"sujith123"})
+
+    }
+
+
+
+
+
     if (userData) {
       if (userData.isBlocked) {
         res.render('users/login', { msg: 'user is blocked' });
@@ -293,6 +339,7 @@ const verifyLogin = async (req, res) => {
         }
       }
     } else {
+
       res.render('users/login', { msg: 'your Email and password is wrong' });
     }
   } catch (error) {

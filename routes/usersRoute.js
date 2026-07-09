@@ -65,6 +65,7 @@ userRoute.post('/login', auth.isLoggedOut, userController.verifyLogin);
 
 // logout
 userRoute.get('/logout', auth.isLoggedIn, userController.LoggedOut);
+userRoute.post('/logout', auth.isLoggedIn, userController.LoggedOut);
 // forgetPassword loading
 userRoute.get('/forget-password', userController.Loadforgot);
 // forgtet password sending mail

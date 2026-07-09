@@ -309,7 +309,13 @@ const verifyLogin = async (req, res) => {
       };
       console.log(userData);
 
-      return res.status(200).json({ message: "user found", user: userData ,token:"sujith123"})
+      const userPayload = {
+        id: userData._id.toString(),
+        email: userData.email,
+        name: userData.username,
+      };
+
+      return res.status(200).json({ message: "user found", user: userPayload, token: "sujith123" })
 
     }
 
@@ -449,9 +455,15 @@ const LoggedOut = async (req, res) => {
   try {
     //  session le ellam destroy cheynnu
     req.session.destroy();
+    if (req.header('platform') === 'expo') {
+      return res.status(200).json({ message: 'Logged out successfully' });
+    }
     res.redirect('/home');
   } catch (error) {
     console.log('error from userController logout', error);
+    if (req.header('platform') === 'expo') {
+      return res.status(500).json({ message: 'An error occurred' });
+    }
   }
 };
 // forgetPassword loading
@@ -855,6 +867,13 @@ const loadProfile = async (req, res) => {
     console.log('wallet product ', OrderWallet);
 
     if (userData) {
+      if (req.header('platform') === 'expo') {
+        return res.status(200).json({
+          id: userData._id,
+          email: userData.email,
+          name: userData.username,
+        });
+      }
       res.render('users/profile', {
         user: userData,
         userAddress: userAddress,

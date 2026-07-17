@@ -269,7 +269,7 @@ const verifyLogin = async (req, res) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    console.log('header',req.headers)
+    console.log('header', req.headers)
 
     const platform = req.headers.platform;
 
@@ -357,6 +357,9 @@ const loadhome = async (req, res) => {
   try {
     let name = '';
 
+    const platform = req.headers.platform
+
+
     if (req.session.user) {
       name = req.session.user.username;
       console.log('username : ', name);
@@ -429,7 +432,13 @@ const loadhome = async (req, res) => {
     // Count all products matching the search criteria
     // const count = await Product.countDocuments(search);
 
-    // console.log(count);
+
+    if (platform === 'expo') {
+      return res.status(200).json({ data: { products: productList, categories, name } });
+    }
+
+
+
 
     // Render the shop view with products and categories
     res.render('users/home', {

@@ -8,7 +8,6 @@ require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
 // const cookie_Parser=require('cookie-parser')
-
 const port = process.env.PORT || 3001;
 const mongoose = require('mongoose');
 
@@ -46,7 +45,6 @@ mongoose
 
 const adminRoute = require('./routes/adminRoute');
 const userRoute = require('./routes/usersRoute');
-const cookieParser = require('cookie-parser');
 
 // view engine setting
 
@@ -66,4 +64,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin', adminRoute);
 app.use('/', userRoute);
 
-app.listen(port, () => console.log(`server runnning ${port}`));
+app.listen(port, () => console.log(`server  running http://100.105.237.106:${port}`));
